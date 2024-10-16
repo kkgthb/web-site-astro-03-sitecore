@@ -1,23 +1,29 @@
 {
-    "name": "web-site-astro-01-min-viable-build",
+    "name": "web-site-astro-03-sitecore",
     "private": true,
     "version": "0.0.1",
-    "description": "Just the files needed to make Astro build a Hello World index.html",
+    "description": "Try to get Astro rendering Sitecore stuff",
     "author": {
         "name": "Katie Kodes",
         "url": "https://katiekodes.com"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/kkgthb/web-site-astro-01-min-viable-build.git"
+        "url": "git+https://github.com/kkgthb/web-site-astro-03-sitecore.git"
     },
     "scripts": {
-        "dev": "astro dev --host",
-        "build": "astro build",
-        "preview": "astro preview",
-        "astro": "astro"
+        "astro": "astro",
+        "astro:build": "astro build",
+        "astro:dev": "astro dev --host",
+        "build": "npm-run-all --serial astro:build",
+        "dev": "npm-run-all --serial astro:dev",
+        "preview": "astro preview"
     },
-    "devDependencies": {
-        "astro": "latest"
+    "dependencies": {
+        "@astro-sitecore-jss/astro-sitecore-jss": "latest",
+        "@astrojs/node": "latest",
+        "@sitecore-jss/sitecore-jss": "latest",
+        "astro": "latest",
+        "npm-run-all": "latest"
     }
 }
