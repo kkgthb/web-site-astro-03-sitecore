@@ -1,9 +1,32 @@
 ---
 import DefaultLayout from "../layouts/DefaultLayout.astro";
 import HelloWorldComponent from "../components/HelloWorldComponent.astro";
-import dummyPageData from "./../../playdata/pagedataexamples";
+import type { LayoutServiceData, LayoutServiceContext, RouteData } from "@sitecore-jss/sitecore-jss/layout";
+import { SitecoreContextMap } from "@astro-sitecore-jss/astro-sitecore-jss";
+import { PagePropsFactoryType, SitecorePagePropsFactory } from "../lib/page-props-factory";
+import config from "../temp/config";
+import dummyPageData from "./../../playdata/realpagedataexamples";
+
+export const prerender = false; // False = SSR; True = SSG.
+
+const { path } = Astro.params;
+
+let sitecorePagePropsFactory = new SitecorePagePropsFactory();
+const pageProps: PagePropsFactoryType = await sitecorePagePropsFactory.create(path ?? "/", config.defaultLanguage);
+const pageData: LayoutServiceData = pageProps.layoutData;
+console.log(JSON.stringify(pageData));
+
+export type SitecoreContextValue = LayoutServiceContext & {
+    itemId?: string | null;
+    route?: RouteData | null;
+};
+let scContext = pageData.sitecore.context as SitecoreContextValue;
+scContext.itemId = pageData.sitecore.route?.itemId;
+scContext.route = pageData.sitecore.route;
+
+SitecoreContextMap.setKey('scContext', scContext);
 ---
 
-<DefaultLayout layoutData={dummyPageData}>
+<DefaultLayout layoutData={pageProps.layoutData}>
     <HelloWorldComponent />
 </DefaultLayout>

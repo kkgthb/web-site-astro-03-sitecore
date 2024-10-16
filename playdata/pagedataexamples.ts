@@ -17,7 +17,7 @@ const dummyPageRouteData: RouteData =
     databaseName: 'iamadb',
     deviceId: 'fe5d7fdf-89c0-4d99-9aa3-b5fbd009c9f3',
     fields: {
-        pageTitle: {
+        Title: {
             value: 'I am the page title',
         },
     },

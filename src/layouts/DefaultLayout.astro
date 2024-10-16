@@ -1,24 +1,32 @@
 ---
+import SCLSPlaceholderComponent from "../components/SCLSPlaceholderComponent.astro";
 import type {
-    LayoutServiceData as SCLSLayoutServiceDataType,
-    Field as SCLSFieldType,
+    LayoutServiceData,
+    Field,
 } from "@sitecore-jss/sitecore-jss/layout";
 
-// Clarify that invocations of "<DefaultLayout>" can instead be "<DefaultLayout layoutData={appropriate-variable-here}>".
+// Clarify that invocations of "<DefaultLayout>" can 
+// instead be "<DefaultLayout layoutData={appropriate-variable-here}>".
 export interface Props {
-    layoutData: SCLSLayoutServiceDataType;
+    layoutData: LayoutServiceData;
 }
 
 interface RouteFields {
     [key: string]: unknown;
-    pageTitle: SCLSFieldType;
+    Title: Field;
 }
 
+// Make it more shorthandey to refer to whatever 
+// "route" property <DefaultLayout> 
+// has been given by its invoker.
 const { route } = Astro.props.layoutData.sitecore;
 
+// Make it more shorthandey to refer to `Route's` fields
 const fields = route?.fields as RouteFields;
 
-const pagewideTitle: string = fields.pageTitle.value.toString() || "Generic page title";
+// Fall back to a generic page title if not passed in
+const pagewideTitle: string =
+    fields.Title.value.toString() || "Generic page title";
 ---
 
 <!doctype html>
@@ -31,5 +39,9 @@ const pagewideTitle: string = fields.pageTitle.value.toString() || "Generic page
     <body>
         <h1>{pagewideTitle}</h1>
         <slot />
+        <main>
+            <SCLSPlaceholderComponent name="headless-sxa-main" rendering={route} />
+        </main>
+        <footer><p>Thanks for coming.</p></footer>
     </body>
 </html>

@@ -11,19 +11,30 @@
         "type": "git",
         "url": "git+https://github.com/kkgthb/web-site-astro-03-sitecore.git"
     },
+    "config": {
+        "appName": null,
+        "language": "en"
+    },
     "scripts": {
         "astro": "astro",
         "astro:build": "astro build",
-        "astro:dev": "astro dev --host",
-        "build": "npm-run-all --serial astro:build",
-        "dev": "npm-run-all --serial astro:dev",
+        "astro:dev": "astro dev --host --verbose",
+        "cmsconnectionsetup": "ts-node --project tsconfig.scripts.json sitecoreysetupscripts/tmc-cmsconnectionsetup.ts",
+        "build": "npm-run-all --serial cmsconnectionsetup astro:build",
+        "dev": "npm-run-all --serial cmsconnectionsetup astro:dev",
         "preview": "astro preview"
     },
     "dependencies": {
-        "@astro-sitecore-jss/astro-sitecore-jss": "latest",
-        "@astrojs/node": "latest",
-        "@sitecore-jss/sitecore-jss": "latest",
-        "astro": "latest",
-        "npm-run-all": "latest"
+        "@astro-sitecore-jss/astro-sitecore-jss": "0.6.5",
+        "@astrojs/node": "^9.0.0-beta.2",
+        "@sitecore-jss/sitecore-jss": "^22.0.0",
+        "astro": "^5.0.0-beta.4",
+        "change-case": "^4.1.2",
+        "tsconfig-paths": "^4.2.0",
+        "tslib": "^2.6.2"
+    },
+    "devDependencies": {
+        "npm-run-all": "^4.1.5",
+        "ts-node": "^10.9.2"
     }
 }
