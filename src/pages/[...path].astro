@@ -1,8 +1,9 @@
 ---
 import DefaultLayout from "../layouts/DefaultLayout.astro";
 import HelloWorldComponent from "../components/HelloWorldComponent.astro";
+import dummyPageData from "./../../playdata/pagedataexamples";
 ---
 
-<DefaultLayout>
+<DefaultLayout layoutData={dummyPageData}>
     <HelloWorldComponent />
 </DefaultLayout>

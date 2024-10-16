@@ -1,10 +1,35 @@
+---
+import type {
+    LayoutServiceData as SCLSLayoutServiceDataType,
+    Field as SCLSFieldType,
+} from "@sitecore-jss/sitecore-jss/layout";
+
+// Clarify that invocations of "<DefaultLayout>" can instead be "<DefaultLayout layoutData={appropriate-variable-here}>".
+export interface Props {
+    layoutData: SCLSLayoutServiceDataType;
+}
+
+interface RouteFields {
+    [key: string]: unknown;
+    pageTitle: SCLSFieldType;
+}
+
+const { route } = Astro.props.layoutData.sitecore;
+
+const fields = route?.fields as RouteFields;
+
+const pagewideTitle: string = fields.pageTitle.value.toString() || "Generic page title";
+---
+
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{pagewideTitle}</title>
     </head>
     <body>
+        <h1>{pagewideTitle}</h1>
         <slot />
     </body>
 </html>
