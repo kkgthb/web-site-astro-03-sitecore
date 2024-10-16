@@ -1,6 +1,6 @@
 ## Celebration
 
-It works!  The phrase "`My Title`" was pulled from a real 3rd-party-hosted HTTP server's REST API endpoint _(although it was mock data, hence just saying "My Title")_.
+It works!  The phrase "`My Title`" was pulled from a real 3rd-party-hosted HTTP server's REST API endpoint mocking a sample Sitecore Layout Service API response.
 
 ![Screenshot of the running web site](/readme-screenshot.png)
 
