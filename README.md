@@ -1,6 +1,6 @@
 ## Celebration
 
-It works!
+It works!  The phrase "`My Title`" was pulled from a real 3rd-party-hosted HTTP server's REST API endpoint _(although it was mock data, hence just saying "My Title")_.
 
 ![Screenshot of the running web site](/readme-screenshot.png)
 
