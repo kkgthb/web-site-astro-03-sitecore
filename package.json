@@ -1,0 +1,23 @@
+{
+    "name": "web-site-astro-01-min-viable-build",
+    "private": true,
+    "version": "0.0.1",
+    "description": "Just the files needed to make Astro build a Hello World index.html",
+    "author": {
+        "name": "Katie Kodes",
+        "url": "https://katiekodes.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kkgthb/web-site-astro-01-min-viable-build.git"
+    },
+    "scripts": {
+        "dev": "astro dev --host",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "devDependencies": {
+        "astro": "latest"
+    }
+}
