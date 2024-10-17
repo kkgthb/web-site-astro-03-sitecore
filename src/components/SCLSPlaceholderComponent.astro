@@ -76,11 +76,16 @@ const isEditor =
 
 // Determine whether there're any more Astro components to render
 // that were written between <SCLSPlaceholderComponent> and </SCLSPlaceholderComponent>.
+console.log(`Aks:  ${JSON.stringify(Object.keys(Astro))}`); // ["props","self"]
+console.log(`A.sks:  ${JSON.stringify(Object.keys(Astro.slots))}`); // []
+console.log(`A.sfks:  ${JSON.stringify(Object.keys(Astro.self))}`); // ["isAstroComponentFactory","moduleId","propagation"]
 const hasChildren = await Astro.slots.has("default");
+console.log(`hasChildren: ${hasChildren}`);
 
 // Build up a collection of exactly what Astro components need to be rendered
 // that were written between <SCLSPlaceholderComponent> and </SCLSPlaceholderComponent>.
 const children = await Astro.slots.render("default", [components, isEditor]);
+console.log(`children: ${children}`);
 ---
 
 {
