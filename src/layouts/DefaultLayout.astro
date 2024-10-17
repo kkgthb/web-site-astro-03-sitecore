@@ -21,7 +21,9 @@ interface RouteFields {
 }
 
 // DEBUG LINE ONLY
-console.log(`CONTEXT: DefaultLayout.  A.pks:  ${JSON.stringify(Object.keys(Astro.props))}`);
+console.log(
+    `CONTEXT: DefaultLayout.  A.pks:  ${JSON.stringify(Object.keys(Astro.props))}`,
+);
 
 // Make it more shorthandey to refer to whatever
 // "route" property <DefaultLayout>
@@ -52,7 +54,12 @@ const pagewideTitle: string =
 
         <header>
             <h2>BEGIN HEADER AREA</h2>
-            <HelloWorldComponent greeting="Salut" name="le monde" iscallto="HWC" calledfroma="DL (1)" />
+            <HelloWorldComponent
+                greeting="Salut"
+                name="le monde"
+                iscallto="HWC"
+                calledfroma="DL (1)"
+            />
             <h3>END HEADER AREA</h3>
         </header>
 
@@ -60,10 +67,14 @@ const pagewideTitle: string =
 
         <main>
             <h2>BEGIN MAIN AREA</h2>
-            {/* <HeadlessSxaMain career="candlestick maker" extranote="This displays 0:0 and such just fine when included." iscallto="HWC" calledfroma="DL (2-opt)" /> */}
+            {
+                /* <HeadlessSxaMain career="candlestick maker" extranote="This displays 0:0 and such just fine when included." iscallto="HWC" calledfroma="DL (2-opt)" /> */
+            }
             <SCLSPlaceholderComponent
                 name="headless-sxa-main"
                 rendering={route}
+                iscallto="SPC"
+                calledfroma="DL (2-hope)"
             />
             <h3>END MAIN AREA</h3>
         </main>
@@ -72,7 +83,11 @@ const pagewideTitle: string =
 
         <footer>
             <h2>BEGIN FOOTER AREA</h2>
-            <FixedContentComponent job="shoemaker" iscallto="FCC" calledfroma="DL (3)" />
+            <FixedContentComponent
+                job="shoemaker"
+                iscallto="FCC"
+                calledfroma="DL (3)"
+            />
             <p>Copyright me.</p>
             <h3>END FOOTER AREA</h3>
         </footer>
