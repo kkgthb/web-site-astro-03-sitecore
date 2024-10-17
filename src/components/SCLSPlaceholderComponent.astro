@@ -1,4 +1,9 @@
 ---
+//Placeholder.astro belongs to library rather than application itself.
+//But there are limitation on how Astro works with components.
+//We can't call component as function: https://docs.astro.build/en/reference/errors/invalid-component-args/
+//It causes dependency between Placeholder.astro and ComponentFactory.astro
+//And as ComponentFactory is dynamic and could not be moved out of application, we need to keep Placeholder.astro here as well.
 import SCLSComponentFactory from "./../temp/component-factory.astro";
 import type {
     ComponentRendering,
@@ -8,12 +13,18 @@ import type {
     Item,
 } from "@sitecore-jss/sitecore-jss/layout";
 
+// Help invokers of <SCLSPlaceholderComponent> understand that
+// it should behave differently if "normal" vs. embedded within the Sitecore Experience Editor.
+export type JssDynamicComponent = ComponentRendering & {
+    isxEditorComponent?: boolean;
+};
+
 // Clarify that invocations of "<SCLSPlaceholderComponent>" can instead be "<SCLSPlaceholderComponent key="value" and="so on">".
 export interface Props {
     [key: string]: unknown;
     name: string;
     rendering: ComponentRendering | RouteData;
-    componentFactory?: typeof SCLSComponentFactory;
+    componentFactory?: typeof ComponentFactory;
     fields?: {
         [name: string]: Field | Item[];
     };
@@ -25,17 +36,12 @@ export interface Props {
     errorComponent?: any;
 }
 
-// Help invokers of <SCLSPlaceholderComponent> understand that
-// it should behave differently if "normal" vs. embedded within the Sitecore Experience Editor.
-export type JssDynamicComponent = ComponentRendering & {
-    isxEditorComponent?: boolean;
-};
+// DEBUG LINE ONLY
+console.log(`CONTEXT: SCLSPlaceholderComponent.  A.pks:  ${JSON.stringify(Object.keys(Astro.props))}`);
 
 // Make <SCLSPlaceholderComponent> return something "normal" vs. "Experience-Editor-friendly."
 export function convertToDynamicComponents(
-    components:
-        | (ComponentRendering | HtmlElementRendering)[]
-        | undefined,
+    components: (ComponentRendering | HtmlElementRendering)[] | undefined,
 ) {
     return (
         components &&
@@ -51,7 +57,7 @@ export function convertToDynamicComponents(
     );
 }
 
-// Make it more shorthandey to refer to whatever 
+// Make it more shorthandey to refer to whatever
 // "rendering" property <SCLSPlaceholderComponent> has been given by its invoker.
 const { rendering } = Astro.props;
 
