@@ -1,7 +1,7 @@
 ---
 // Usage: <HelloWorldComponent greeting="Howdy" name="Partner" />
 const { greeting = "Hello", name = "World" } = Astro.props;
-console.log(Object.keys(Astro.props));
+console.log(`CONTEXT: HelloWorldComponent.  A.ps:  ${JSON.stringify(Object.entries(Astro.props))}`);
 ---
 
 <p>{greeting}, {name}!</p>
