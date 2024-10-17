@@ -2,7 +2,6 @@ const plugins = require("./plugins");
 
 export interface JssConfig extends Record<string, string | undefined> {
   sitecoreSiteName?: string;
-  sitecoreApiKey?: string;
   sitecoreApiHost?: string;
   jssAppName?: string;
   graphQLEndpointPath?: string;
@@ -10,6 +9,8 @@ export interface JssConfig extends Record<string, string | undefined> {
   rootItemId?: string;
   defaultLanguage?: string;
   fetchWith?: string;
+  layoutServiceConfigurationName?: string;
+  publicUrl?: string;
 }
 
 export interface IConfigPlugin {
@@ -21,10 +22,10 @@ export interface IConfigPlugin {
 class JssConfigGenerator {
   public async generateConfig(defaultConfig: JssConfig = {}): Promise<JssConfig> {
     const configPlugins: IConfigPlugin[] = Object.values(plugins) as IConfigPlugin[];
-    
+
     const result: Promise<JssConfig> = configPlugins
       .sort((x, y) => x.order - y.order)
-      .reduce((promise, plugin) => 
+      .reduce((promise, plugin) =>
         promise.then(config => plugin.execute(config)),
         Promise.resolve(defaultConfig));
 

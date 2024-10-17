@@ -7,11 +7,10 @@ const CONFIG_PATH = path.resolve("src/temp/config.js");
 
 const defaultConfig: JssConfig = {
   sitecoreSiteName: process.env.SITECORE_SITE_NAME || process.env.JSS_APP_NAME,
-  sitecoreApiKey: process.env.SITECORE_API_KEY,
-  sitecoreApiHost: ('' + process.env.SITECORE_API_HOST + process.env.SITECORE_LAYOUT_SERVICE_PATH),
+  sitecoreApiHost: `${process.env.SITECORE_API_HOST}${process.env.SITECORE_LAYOUT_SERVICE_PATH}`,
   jssAppName: process.env.SITECORE_SITE_NAME || process.env.JSS_APP_NAME,
-  graphQLEndpointPath: process.env.GRAPH_QL_ENDPOINT_PATH,
-  graphQLEndpoint: process.env.GRAPH_QL_ENDPOINT,  
+  graphQLEndpointPath: process.env.GRAPH_QL_ENDPOINT_PATH || "/sitecore/api/graph/edge",
+  graphQLEndpoint: process.env.GRAPH_QL_ENDPOINT || `${process.env.SITECORE_API_HOST}${(process.env.GRAPH_QL_ENDPOINT_PATH || "/sitecore/api/graph/edge")}`,
   rootItemId: process.env.rootItemId,  
   defaultLanguage: process.env.DEFAULT_LANGUAGE,
   fetchWith: process.env.FETCH_WITH,

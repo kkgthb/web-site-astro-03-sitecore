@@ -1,13 +1,8 @@
 {
   "sitecore": {
-    "jssAppName": null,
-    "sitecoreApiKey": null,
-    "sitecoreApiHost": null,
     "rootItemId": "/",
-    "graphQLEndpoint": "/sitecore/api/graph/edge",
-    "graphQLEndpointPath": null,
     "defaultLanguage": "en",
-    "fetchWith": null,
+    "fetchWith": "GraphQL",
     "layoutServicePath": "/sitecore/api/layout/render"
   }
 }

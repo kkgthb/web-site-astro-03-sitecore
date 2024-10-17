@@ -11,7 +11,7 @@ class FallbackPlugin implements IConfigPlugin {
     console.log("Fallback Plugin");
 
     return Object.assign({}, config, {
-      sitecoreApiKey: config.sitecoreApiKey || 'no-api-key-set',
+      sitecoreApiKey: config.sitecoreApiKey,
       defaultLanguage: config.defaultLanguage || 'en'      
     });
   }

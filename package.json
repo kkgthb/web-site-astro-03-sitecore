@@ -18,7 +18,7 @@
     "scripts": {
         "astro": "astro",
         "astro:build": "astro build",
-        "astro:dev": "astro dev --host --verbose",
+        "astro:dev": "astro dev --host",
         "cmsconnectionsetup": "ts-node --project tsconfig.scripts.json sitecoreysetupscripts/tmc-cmsconnectionsetup.ts",
         "build": "npm-run-all --serial cmsconnectionsetup astro:build",
         "dev": "npm-run-all --serial cmsconnectionsetup astro:dev",

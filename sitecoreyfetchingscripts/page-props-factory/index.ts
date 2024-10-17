@@ -25,7 +25,7 @@ export class SitecorePagePropsFactory {
     path: string,
     language?: string
   ): Promise<PagePropsFactoryType> {
-console.log(path);
+
     let layout: LayoutServiceData = await this.layoutService.fetchLayoutData(path, language || config.defaultLanguage);
 
     let props = {

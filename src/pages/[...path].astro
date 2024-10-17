@@ -1,20 +1,28 @@
 ---
 import DefaultLayout from "../layouts/DefaultLayout.astro";
 import HelloWorldComponent from "../components/HelloWorldComponent.astro";
+import { SitemapService, StaticPath } from "./../../sitecoreyfetchingscripts/sitemap-service";
 import type { LayoutServiceData, LayoutServiceContext, RouteData } from "@sitecore-jss/sitecore-jss/layout";
 import { SitecoreContextMap } from "@astro-sitecore-jss/astro-sitecore-jss";
 import { PagePropsFactoryType, SitecorePagePropsFactory } from "./../../sitecoreyfetchingscripts/page-props-factory";
 import config from "../temp/config";
-import dummyPageData from "./../../playdata/realpagedataexamples";
+import GraphQLRequestClientFactory from "./../../sitecoreyfetchingscripts/graphql/graphql-request-client-factory";
 
-export const prerender = false; // False = SSR; True = SSG.
+export const prerender = true; // False = SSR; True = SSG.
+
+export async function getStaticPaths() {
+  const graphQlRequestSitemapFactory = new GraphQLRequestClientFactory();
+  const sitemapService = new SitemapService(graphQlRequestSitemapFactory);
+  const staticPaths: StaticPath[] = await sitemapService.getStaticSitemap(config.defaultLanguage);
+
+  return staticPaths;
+}
 
 const { path } = Astro.params;
 
 let sitecorePagePropsFactory = new SitecorePagePropsFactory();
 const pageProps: PagePropsFactoryType = await sitecorePagePropsFactory.create(path ?? "/", config.defaultLanguage);
 const pageData: LayoutServiceData = pageProps.layoutData;
-console.log(JSON.stringify(pageData));
 
 export type SitecoreContextValue = LayoutServiceContext & {
     itemId?: string | null;
