@@ -1,7 +1,7 @@
 import type { LayoutService, LayoutServiceData } from "@sitecore-jss/sitecore-jss/layout";
 import { DictionaryPhrases } from '@sitecore-jss/sitecore-jss/i18n';
 import { layoutServiceFactory } from "../layout-service-factory";
-import config from "../../temp/config";
+import config from "./../../src/temp/config";
 
 export type PagePropsFactoryType = {
   layoutData: LayoutServiceData,

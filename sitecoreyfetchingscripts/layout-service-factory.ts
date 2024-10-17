@@ -1,6 +1,6 @@
 import jss from '@sitecore-jss/sitecore-jss/layout';
 import type { LayoutService } from '@sitecore-jss/sitecore-jss/layout';
-import config from '../temp/config';
+import config from './../src/temp/config';
 const { RestLayoutService } = jss;
 
 export class LayoutServiceFactory {
