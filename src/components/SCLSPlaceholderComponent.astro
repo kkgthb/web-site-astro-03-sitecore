@@ -24,7 +24,7 @@ export interface Props {
     [key: string]: unknown;
     name: string;
     rendering: ComponentRendering | RouteData;
-    componentFactory?: typeof ComponentFactory;
+    componentFactory?: typeof SCLSComponentFactory;
     fields?: {
         [name: string]: Field | Item[];
     };
