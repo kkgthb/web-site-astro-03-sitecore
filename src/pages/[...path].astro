@@ -1,10 +1,10 @@
 ---
-import DefaultLayout from "../layouts/DefaultLayout.astro";
 import HelloWorldComponent from "../components/HelloWorldComponent.astro";
+import DefaultLayout from "../layouts/DefaultLayout.astro";
 import { SitemapService, StaticPath } from "./../../sitecoreyfetchingscripts/sitemap-service";
-import type { LayoutServiceData, LayoutServiceContext, RouteData } from "@sitecore-jss/sitecore-jss/layout";
+import { SitecorePagePropsFactory } from "./../../sitecoreyfetchingscripts/page-props-factory";
 import { SitecoreContextMap } from "@astro-sitecore-jss/astro-sitecore-jss";
-import { PagePropsFactoryType, SitecorePagePropsFactory } from "./../../sitecoreyfetchingscripts/page-props-factory";
+import type { LayoutServiceContext, RouteData } from "@sitecore-jss/sitecore-jss/layout";
 import config from "../temp/config";
 import GraphQLRequestClientFactory from "./../../sitecoreyfetchingscripts/graphql/graphql-request-client-factory";
 
@@ -18,23 +18,25 @@ export async function getStaticPaths() {
   return staticPaths;
 }
 
+export type SitecoreContextValue = LayoutServiceContext & {
+    itemId?: string;
+    route?: RouteData;
+};
+
 const { path } = Astro.params;
 
 let sitecorePagePropsFactory = new SitecorePagePropsFactory();
-const pageProps: PagePropsFactoryType = await sitecorePagePropsFactory.create(path ?? "/", config.defaultLanguage);
-const pageData: LayoutServiceData = pageProps.layoutData;
+const pageProps = await sitecorePagePropsFactory.create(path ?? "/", config.defaultLanguage);
 
-export type SitecoreContextValue = LayoutServiceContext & {
-    itemId?: string | null;
-    route?: RouteData | null;
-};
-let scContext = pageData.sitecore.context as SitecoreContextValue;
-scContext.itemId = pageData.sitecore.route?.itemId;
-scContext.route = pageData.sitecore.route;
+let scContext = pageProps.layoutData.sitecore.context as SitecoreContextValue;
+scContext.route = pageProps.layoutData.sitecore.route;
+scContext.itemId = pageProps.layoutData.sitecore.route.itemId;
 
 SitecoreContextMap.setKey('scContext', scContext);
+SitecoreContextMap.setKey('dictionary', pageProps.dictionary);
+
 ---
 
 <DefaultLayout layoutData={pageProps.layoutData}>
-    <HelloWorldComponent />
+  <HelloWorldComponent />
 </DefaultLayout>

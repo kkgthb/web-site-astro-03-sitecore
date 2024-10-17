@@ -1,1 +1,15 @@
-<p>Hello, world!</p>
+---
+// Usage: <HelloWorldComponent greeting="Howdy" name="Partner" />
+const { greeting = "Hello", name = "World" } = Astro.props;
+console.log(Object.keys(Astro.props));
+---
+
+<p>{greeting}, {name}!</p>
+<slot name="fixed-first-here" />
+<slot name="default">
+    <p>This is my fallback content, if something wrapped in "HelloWorld" does not pass any child HTML into this default slot.</p>
+</slot>
+<slot name="one-more-named"><p>This is fallback content for the one-more-named slot if nothing passes anything to it.</p></slot>
+<slot name="second-more-named"><p>This is fallback content for the second-more-named slot if nothing passes anything to it.</p></slot>
+<slot name="fixed-last-here" />
+<p>Yay -- you have been greeted.</p>

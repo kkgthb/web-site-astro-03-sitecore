@@ -1,11 +1,14 @@
 ---
+import FixedContentComponent from "../components/FixedContentComponent.astro";
+import HelloWorldComponent from "../components/HelloWorldComponent.astro";
 import SCLSPlaceholderComponent from "../components/SCLSPlaceholderComponent.astro";
 import type {
     LayoutServiceData,
     Field,
+    RouteData,
 } from "@sitecore-jss/sitecore-jss/layout";
 
-// Clarify that invocations of "<DefaultLayout>" can 
+// Clarify that invocations of "<DefaultLayout>" can
 // instead be "<DefaultLayout layoutData={appropriate-variable-here}>".
 export interface Props {
     layoutData: LayoutServiceData;
@@ -16,10 +19,10 @@ interface RouteFields {
     Title: Field;
 }
 
-// Make it more shorthandey to refer to whatever 
-// "route" property <DefaultLayout> 
+// Make it more shorthandey to refer to whatever
+// "route" property <DefaultLayout>
 // has been given by its invoker.
-const { route } = Astro.props.layoutData.sitecore;
+const { route }: { route: RouteData | null } = Astro.props.layoutData.sitecore;
 
 // Make it more shorthandey to refer to `Route's` fields
 const fields = route?.fields as RouteFields;
@@ -37,11 +40,40 @@ const pagewideTitle: string =
         <title>{pagewideTitle}</title>
     </head>
     <body>
+        <hr />
+        <hr />
+        <hr />
         <h1>{pagewideTitle}</h1>
-        <slot />
+        <hr />
+
+        <header>
+            <h2>BEGIN HEADER AREA</h2>
+            <HelloWorldComponent greeting="Salut" name="le monde" />
+            <h3>END HEADER AREA</h3>
+        </header>
+
+        <hr />
+
         <main>
-            <SCLSPlaceholderComponent name="headless-sxa-main" rendering={route} />
+            <h2>BEGIN MAIN AREA</h2>
+            <SCLSPlaceholderComponent
+                name="headless-sxa-main"
+                rendering={route}
+            />
+            <h3>END MAIN AREA</h3>
         </main>
-        <footer><p>Thanks for coming.</p></footer>
+
+        <hr />
+
+        <footer>
+            <h2>BEGIN FOOTER AREA</h2>
+            <FixedContentComponent job="tailor" />
+            <p>Copyright me.</p>
+            <h3>END FOOTER AREA</h3>
+        </footer>
+
+        <hr />
+        <hr />
+        <hr />
     </body>
 </html>
