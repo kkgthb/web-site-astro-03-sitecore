@@ -1,42 +1,69 @@
 ---
-import HelloWorldComponent from "../components/HelloWorldComponent.astro";
+/*
+ * 101-LEVEL LESSON:
+ * Q:  Why is this file named "[...path].astro"?
+ * A:  To tell the server what to do
+ *       whenever anyone hits ANY URL in our
+ *       frontend web site.
+ *     See https://docs.astro.build/en/guides/routing/#rest-parameters
+ *     (In this case, the answer is "see if the backend
+ *       Sitecore CMS API is expecting there to be such a URL.")
+ */
+
 import DefaultLayout from "../layouts/DefaultLayout.astro";
-import { SitemapService, StaticPath } from "./../../sitecoreyfetchingscripts/sitemap-service";
-import { SitecorePagePropsFactory } from "./../../sitecoreyfetchingscripts/page-props-factory";
+import {
+  SitemapService,
+  StaticPath,
+} from "../../utils-to-deal-with-backend/runtimefetchingscripts/sitemap-service";
+import { SitecorePagePropsFactory } from "../../utils-to-deal-with-backend/runtimefetchingscripts/page-props-factory";
 import { SitecoreContextMap } from "@astro-sitecore-jss/astro-sitecore-jss";
-import type { LayoutServiceContext, RouteData } from "@sitecore-jss/sitecore-jss/layout";
+import type {
+  LayoutServiceContext,
+  RouteData,
+} from "@sitecore-jss/sitecore-jss/layout";
 import config from "../temp/config";
-import GraphQLRequestClientFactory from "./../../sitecoreyfetchingscripts/graphql/graphql-request-client-factory";
+import GraphQLRequestClientFactory from "../../utils-to-deal-with-backend/runtimefetchingscripts/graphql/graphql-request-client-factory";
 
 export const prerender = true; // False = SSR; True = SSG.
 
 export async function getStaticPaths() {
   const graphQlRequestSitemapFactory = new GraphQLRequestClientFactory();
   const sitemapService = new SitemapService(graphQlRequestSitemapFactory);
-  const staticPaths: StaticPath[] = await sitemapService.getStaticSitemap(config.defaultLanguage);
+  const staticPaths: StaticPath[] = await sitemapService.getStaticSitemap(
+    config.defaultLanguage,
+  );
 
   return staticPaths;
 }
 
 export type SitecoreContextValue = LayoutServiceContext & {
-    itemId?: string;
-    route?: RouteData;
+  itemId?: string;
+  route?: RouteData;
 };
 
 const { path } = Astro.params;
 
 let sitecorePagePropsFactory = new SitecorePagePropsFactory();
-const pageProps = await sitecorePagePropsFactory.create(path ?? "/", config.defaultLanguage);
+const pageProps = await sitecorePagePropsFactory.create(
+  path ?? "/",
+  config.defaultLanguage,
+);
 
 let scContext = pageProps.layoutData.sitecore.context as SitecoreContextValue;
 scContext.route = pageProps.layoutData.sitecore.route;
 scContext.itemId = pageProps.layoutData.sitecore.route.itemId;
 
-SitecoreContextMap.setKey('scContext', scContext);
-SitecoreContextMap.setKey('dictionary', pageProps.dictionary);
+SitecoreContextMap.setKey("scContext", scContext);
+SitecoreContextMap.setKey("dictionary", pageProps.dictionary);
 
+/*
+ * 101-LEVEL LESSON:
+ * Finally, down below in our actual template code,
+ *   we'll ask DefaultLayout.astro to actually
+ *   do the dirty work of turning the data
+ *   we discovered for the URL our visitor tried
+ *   (if we discovered any, that is) into HTML.
+ */
 ---
 
-<DefaultLayout layoutData={pageProps.layoutData}>
-  <HelloWorldComponent />
-</DefaultLayout>
+<DefaultLayout layoutData={pageProps.layoutData} />
