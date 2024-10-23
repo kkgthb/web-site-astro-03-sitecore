@@ -1,41 +1,33 @@
 ---
-import FixedContentComponent from "../components/FixedContentComponent.astro";
-import HelloWorldComponent from "../components/HelloWorldComponent.astro";
-import HeadlessSxaMain from "../components/headless-sxa-main.astro";
-import SCLSPlaceholderComponent from "../components/SCLSPlaceholderComponent.astro";
-import type {
-    LayoutServiceData,
-    Field,
-    RouteData,
-} from "@sitecore-jss/sitecore-jss/layout";
+/*
+ * 101-LEVEL LESSON:
+ * Q:  Why is this file named "DefaultLayout.astro"?
+ * A:  Because we hand-coded the "[...path].astro" file to
+ *       include a <DefaultLayout /> element.
+ *     The actual knowledge of what kind of
+ *       HTML to generate lives here in this file.
+ *      This is where we specify the outermost
+ *       "<html>" tags and such.
+ */
 
-// Clarify that invocations of "<DefaultLayout>" can
-// instead be "<DefaultLayout layoutData={appropriate-variable-here}>".
+import SitecorePlaceholderHelper from "../components/system/Sitecore-Placeholder-Helper.astro";
+
+import type { LayoutServiceData } from "@sitecore-jss/sitecore-jss/layout";
+
+/*
+ * 101-LEVEL LESSON:
+ * Here, we tell Astro that any HTML-templating code trying to leverage
+ *   <DefaultLayout />
+ * needs to do so more like:
+ *   <DefaultLayout layoutData={put-a-LayoutServiceData-typed-variable-here} />
+ */
 export interface Props {
     layoutData: LayoutServiceData;
 }
 
-interface RouteFields {
-    [key: string]: unknown;
-    Title: Field;
-}
-
-// DEBUG LINE ONLY
-console.log(
-    `CONTEXT: DefaultLayout.  A.pks:  ${JSON.stringify(Object.keys(Astro.props))}`,
-);
-
-// Make it more shorthandey to refer to whatever
-// "route" property <DefaultLayout>
-// has been given by its invoker.
-const { route }: { route: RouteData | null } = Astro.props.layoutData.sitecore;
-
-// Make it more shorthandey to refer to `Route's` fields
-const fields = route?.fields as RouteFields;
-
-// Fall back to a generic page title if not passed in
-const pagewideTitle: string =
-    fields?.Title?.value?.toString() || "Generic page title";
+// Fall back to a generic page title if the data from the API does not include one.
+const titleTagText: string =
+    Astro?.props?.layoutData?.sitecore?.route?.fields?.Title?.value?.toString() || "Generic page title";
 ---
 
 <!doctype html>
@@ -43,57 +35,33 @@ const pagewideTitle: string =
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{pagewideTitle}</title>
+        <title>{titleTagText}</title>
     </head>
     <body>
-        <hr />
-        <hr />
-        <hr />
-        <h1>{pagewideTitle}</h1>
-        <hr />
-
-        <header>
-            <h2>BEGIN HEADER AREA</h2>
-            <HelloWorldComponent
-                greeting="Salut"
-                name="le monde"
-                iscallto="HWC"
-                calledfroma="DL (1)"
-            />
-            <h3>END HEADER AREA</h3>
-        </header>
-
-        <hr />
-
-        <main>
-            <h2>BEGIN MAIN AREA</h2>
-            {
-                /* <HeadlessSxaMain career="candlestick maker" extranote="This displays 0:0 and such just fine when included." iscallto="HWC" calledfroma="DL (2-opt)" /> */
-            }
-            <SCLSPlaceholderComponent
-                name="headless-sxa-main"
-                rendering={route}
-                iscallto="SPC"
-                calledfroma="DL (2-hope)"
-            />
-            <h3>END MAIN AREA</h3>
-        </main>
-
-        <hr />
-
-        <footer>
-            <h2>BEGIN FOOTER AREA</h2>
-            <FixedContentComponent
-                job="shoemaker"
-                iscallto="FCC"
-                calledfroma="DL (3)"
-            />
-            <p>Copyright me.</p>
-            <h3>END FOOTER AREA</h3>
-        </footer>
-
-        <hr />
-        <hr />
-        <hr />
+        {
+            /* TODO: class="prod-mode" needs to be fancied up for editing mode and such */
+        }
+        <div class="prod-mode">
+            <header>
+                <SitecorePlaceholderHelper
+                    name="headless-sxa-header"
+                    rendering={Astro.props.layoutData.sitecore.route}
+                />
+            </header>
+            <main>
+                <div id="content">
+                    <SitecorePlaceholderHelper
+                        name="headless-sxa-main"
+                        rendering={Astro.props.layoutData.sitecore.route}
+                    />
+                </div>
+            </main>
+            <footer>
+                <SitecorePlaceholderHelper
+                    name="headless-sxa-footer"
+                    rendering={Astro.props.layoutData.sitecore.route}
+                />
+            </footer>
+        </div>
     </body>
 </html>
