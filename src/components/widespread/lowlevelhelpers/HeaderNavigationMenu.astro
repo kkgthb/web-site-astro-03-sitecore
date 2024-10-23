@@ -1,0 +1,23 @@
+---
+import HeaderNavigationElement from "./HeaderNavigationElement.astro";
+
+import type { Item } from "@sitecore-jss/sitecore-jss/layout";
+
+// Clarify that invocations of "<HeaderNavigationMenu>" can instead be "<HeaderNavigationMenu key="value" and="so on">".
+export interface Props {
+    theNavigation: Item[];
+}
+
+const { theNavigation } = Astro.props;
+---
+
+<nav
+    class="TODO-nav-tag-class-list"
+>
+    {
+        theNavigation &&
+            theNavigation.map((navListItem: Item) => (
+                <HeaderNavigationElement theLink={navListItem?.fields?.Link} />
+            ))
+    }
+</nav>

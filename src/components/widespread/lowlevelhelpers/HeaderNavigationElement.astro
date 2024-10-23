@@ -1,0 +1,18 @@
+---
+import { Link } from "@astro-sitecore-jss/astro-sitecore-jss";
+
+import type { Field } from "@sitecore-jss/sitecore-jss/layout";
+
+// Clarify that invocations of "<HeaderNavigationElement>"
+// can instead be '<HeaderNavigationMenu
+// theLink={fields.Link} and="so on">'.
+export interface Props {
+    theLink: Field;
+}
+
+const { theLink } = Astro.props;
+
+theLink.value.class = `${theLink.value.class} ${theLink.value.href === Astro.url.pathname ? "active" : ""}`;
+---
+
+<Link field={theLink} />
