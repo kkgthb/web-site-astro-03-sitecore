@@ -19,10 +19,11 @@
         "astro": "astro",
         "astro:build": "astro build",
         "astro:dev": "astro dev --host",
-        "cmsconnectionsetup": "ts-node --project tsconfig.scripts.json utils-to-deal-with-backend/prebuildsetupscripts/tmc-cmsconnectionsetup.ts",
         "build": "npm-run-all --serial cmsconnectionsetup astro:build",
+        "cmsconnectionsetup": "ts-node --project tsconfig.scripts.json utils-to-deal-with-backend/prebuildsetupscripts/tmc-cmsconnectionsetup.ts",
         "dev": "npm-run-all --serial cmsconnectionsetup astro:dev",
-        "preview": "astro preview"
+        "preview": "astro preview",
+        "viewsampledata": "ts-node --project tsconfig.scripts.json .handy-devonly-miscellany/generate-sample-data/site--eat-more-pizza/route--pizzerias/console-log-sample.ts"
     },
     "dependencies": {
         "@astro-sitecore-jss/astro-sitecore-jss": "0.6.5",
