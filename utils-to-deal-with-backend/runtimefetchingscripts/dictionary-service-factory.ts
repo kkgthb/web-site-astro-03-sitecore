@@ -2,7 +2,7 @@
 import jssI18n from '@sitecore-jss/sitecore-jss/i18n';
 import type { DictionaryService } from '@sitecore-jss/sitecore-jss/i18n';
 import jss from '@sitecore-jss/sitecore-jss';
-import config from '../src/temp/config';
+import config from '../../../src/temp/config';
 
 const { RestDictionaryService, GraphQLDictionaryService} = jssI18n;
 const { constants } = jss;

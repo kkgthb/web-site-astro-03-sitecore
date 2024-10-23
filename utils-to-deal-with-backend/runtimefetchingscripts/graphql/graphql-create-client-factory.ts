@@ -1,6 +1,6 @@
 import jss from "@sitecore-jss/sitecore-jss/graphql";
 import type { GraphQLRequestClientFactoryConfig } from "@sitecore-jss/sitecore-jss/graphql";
-import config from "../../src/temp/config";
+import config from "../../../src/temp/config";
 const { GraphQLRequestClient } = jss;
 
 export const createGraphQLClientFactory = () => {

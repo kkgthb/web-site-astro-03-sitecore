@@ -1,6 +1,6 @@
 import jss from '@sitecore-jss/sitecore-jss/layout';
 import type { LayoutService } from '@sitecore-jss/sitecore-jss/layout';
-import config from './../src/temp/config';
+import config from '../../src/temp/config';
 import clientFactory from './graphql/graphql-create-client-factory';
 const { RestLayoutService, GraphQLLayoutService } = jss;
 

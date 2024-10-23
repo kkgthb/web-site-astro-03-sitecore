@@ -1,7 +1,7 @@
 import jss from "@sitecore-jss/sitecore-jss/graphql";
 import type { GraphQLRequestClientConfig } from "@sitecore-jss/sitecore-jss/graphql";
 import type { Debugger } from "@sitecore-jss/sitecore-jss";
-import config from "../../src/temp/config";
+import config from "../../../src/temp/config";
 const { GraphQLRequestClient } = jss;
 
 

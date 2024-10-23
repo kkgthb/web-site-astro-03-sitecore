@@ -9,7 +9,7 @@ class ConfigPlugin implements IConfigPlugin {
   async execute(config: JssConfig): Promise<JssConfig> {
     console.log("Config Plugin");
 
-    const scJssConfig = require("../../../scjssconfig.json");
+    const scJssConfig = require("../../../../scjssconfig.json");
     if(!scJssConfig) {
       return config;
     }

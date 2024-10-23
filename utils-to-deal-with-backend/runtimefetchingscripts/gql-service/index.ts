@@ -1,5 +1,5 @@
 import jss from '@sitecore-jss/sitecore-jss';
-import config from '../../src/temp/config';
+import config from '../../../src/temp/config';
 import type { IQueryResult, IResultsItem } from './types';
 import type { GraphQLClient } from '@sitecore-jss/sitecore-jss/graphql';
 import type GraphQLRequestClientFactory from '../graphql/graphql-request-client-factory';

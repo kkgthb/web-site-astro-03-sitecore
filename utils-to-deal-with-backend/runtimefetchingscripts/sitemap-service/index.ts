@@ -1,5 +1,5 @@
 import jss from "@sitecore-jss/sitecore-jss";
-import config from "../../src/temp/config";
+import config from "../../../src/temp/config";
 import type { GraphQLClient, PageInfo } from "@sitecore-jss/sitecore-jss/graphql";
 import type GraphQLRequestClientFactory from "../graphql/graphql-request-client-factory";
 const { debug } = jss;
