@@ -1,0 +1,103 @@
+---
+import SCLSComponentFactory from "../../temp/component-factory.astro";
+import type {
+    ComponentRendering,
+    RouteData,
+    HtmlElementRendering,
+    Field,
+    Item,
+} from "@sitecore-jss/sitecore-jss/layout";
+
+/*
+ * 101-LEVEL LESSON:
+ * Here, we tell Astro that any HTML-templating code trying to include an element such as:
+ *   <SitecorePlaceholderHelper />
+ * needs to do so more like:
+ *   <SitecorePlaceholderHelper name="something-here" rendering={put-a-ComponentRendering-or-RouteData-typed-variable-here} />
+ */
+export interface Props {
+    [key: string]: unknown;
+    name: string;
+    rendering: ComponentRendering | RouteData;
+    componentFactory?: typeof SCLSComponentFactory;
+    fields?: {
+        [name: string]: Field | Item[];
+    };
+    params?: {
+        [name: string]: string;
+    };
+    missingComponentComponent?: any;
+    hiddenRenderingComponent?: any;
+    errorComponent?: any;
+}
+
+/*
+ * 101-LEVEL LESSON:
+ * Here, we create a variable called "components" and fill it with
+ *   a collection of data we find even deeper within
+ *   Astro.props.rendering (which is
+ *   the data passed in as "rendering=" when some other file got us running
+ *   this file by saying
+ *     <SitecorePlaceholderHelper name="something-here" rendering={something-else-here} />
+ *   ).
+ */
+type JssDynamicComponent = ComponentRendering & {
+    isxEditorComponent?: boolean;
+};
+function convertToDynamicComponents(
+    components: (ComponentRendering | HtmlElementRendering)[] | undefined,
+) {
+    return (
+        components &&
+        components.map((component) => {
+            const jssComponent = {
+                ...component,
+                //TODO: isxEditorComponent depends on experience editor element name or type (this TODO comes from EDXST's sample; no idea how to fix it)
+                isxEditorComponent: false,
+            } as JssDynamicComponent;
+
+            return jssComponent;
+        })
+    );
+}
+const components = convertToDynamicComponents(
+    Astro.props.rendering.placeholders &&
+        Astro.props.rendering.placeholders[Astro.props.name],
+);
+
+/*
+ * 101-LEVEL LESSON:
+ * Here, we create a variable called "isEditor" and fill it with
+ *   the members of our "components" variable whose HTML should
+ *   behave differently when viewed
+ *   through the Experience Editor portal.
+ */
+const isEditor =
+    components &&
+    components.every((component) =>
+        component.isxEditorComponent ? true : false,
+    );
+
+/*
+ * 101-LEVEL LESSON:
+ * Finally, down below in our actual template code,
+ *   if there was any important data deep within
+ *   the value of Astro.props.rendering.
+ * If so, we'll use JavaScript arrays' built-in ".map()" function
+ *   to make sure all of that data also gets rendered into HTML
+ *   by whichever templates seem appropriate.
+ */
+const hasChildren = await Astro.slots.has("default");
+const children = await Astro.slots.render("default", [components, isEditor]);
+---
+
+{
+    (hasChildren && <Fragment set:html={children} />) ||
+        (components &&
+            components.map((component) => (
+                <SCLSComponentFactory
+                    name={component.componentName}
+                    route={component}
+                />
+            )))
+}
