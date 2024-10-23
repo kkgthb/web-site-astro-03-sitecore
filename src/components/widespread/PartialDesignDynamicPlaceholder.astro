@@ -1,0 +1,67 @@
+---
+/*
+ * 101-LEVEL LESSON:
+ * Q:  Why is this file named "PartialDesignDynamicPlaceholder.astro"?
+ * A:  Because Sitecore API data returned typically includes
+ *       a `.sitecore.route.placeholders.SOME-STRING-HERE` property
+ *       whose value is a list of objects.
+ *       Each of those objects, in turn, have a "componentName" property
+ *       whose value is "PartialDesignDynamicPlaceholder."
+ *     This file ("PartialDesignDynamicPlaceholder.astro")
+ *       knows how to render the various properties of
+ *       such an object into HTML.
+ *     See also https://developers.sitecore.com/learn/accelerate/xm-cloud/implementation/developer-experience/using-placeholders#sxa-partial-design-placeholders 
+ *       maybe?
+ */
+
+import SitecorePlaceholderHelper from "../system/Sitecore-Placeholder-Helper.astro";
+import type { ComponentRendering } from "@sitecore-jss/sitecore-jss/layout";
+
+/*
+ * 101-LEVEL LESSON:
+ * Here, we tell Astro that any HTML-templating code trying to include an element such as:
+ *   <PartialDesignDynamicPlaceholder />
+ * needs to do so more like:
+ *   <PartialDesignDynamicPlaceholder route={put-a-ComponentRendering-typed-variable-here} />
+ */
+export interface Props {
+    route: ComponentRendering;
+}
+
+/*
+ * 101-LEVEL LESSON:
+ * It just so happens that the Sitecore CMS administrators who configure the 
+ * "Sitecore site" this codebase is meant to render decided to define
+ *   Sitecore API objects containing '"componentName": "PartialDesignDynamicPlaceholder"
+ *   to not have a "fields" property at all.
+ * However, those administrators DID design them to have a "placeholders" property
+ *   whose value is an object.
+ * Without further ado ... let's list all of that sub-object's property names (keys) and
+ *   store the list (array) in a variable called "childPlaceholderNames."
+ */
+const childPlaceholderNames: string[] = !!Astro.props.route.placeholders
+    ? Object.keys(Astro.props.route.placeholders)
+    : [];
+
+/*
+ * 101-LEVEL LESSON:
+ * Finally, down below in our actual template code,
+ *   we'll use JavaScript arrays' built-in ".map()" function
+ *   to loop over every property name we found.
+ * For each property name, we'll say that:
+ *     * We'd like Astro to figure out which "something-or-other.astro" file
+ *       knows what to do with its associated data.
+ *     * We'd like Astro to include the appropriate
+ *       <SomethingOrOther /> element defined in that file,
+ *       so as to transform the associated data into HTML.
+ */
+---
+
+{
+    childPlaceholderNames.map((childPlaceholderName: string) => (
+        <SitecorePlaceholderHelper
+            name={childPlaceholderName}
+            rendering={Astro.props.route}
+        />
+    ))
+}
