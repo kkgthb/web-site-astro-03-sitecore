@@ -1,0 +1,57 @@
+---
+/*
+ * 101-LEVEL LESSON:
+ * Q:  Why is this file named "Header.astro"?
+ * A:  Because it just so happens that the Sitecore CMS administrators who configure the 
+*        "Sitecore site" this codebase is meant to render decided to set things 
+ *       up in a way that makes Sitecore API data returned include
+ *       a `.sitecore.route.placeholders.headless-sxa-header.placeholders` property
+ *       whose value is a list of objects.
+ *     Each of those objects, in turn, have a "componentName" property.
+ *       Data has been found in which this property's
+ *       value is "Header."
+ *     This file ("Header.astro")
+ *       knows how to render the various properties of
+ *       such an object into HTML.
+ */
+
+import { Text } from "@astro-sitecore-jss/astro-sitecore-jss";
+import HeaderNavigationMenu from "./lowlevelhelpers/HeaderNavigationMenu.astro";
+import type { ComponentRendering } from "@sitecore-jss/sitecore-jss/layout";
+
+/*
+ * 101-LEVEL LESSON:
+ * Here, we tell Astro that any HTML-templating code trying to include an element such as:
+ *   <Header />
+ * needs to do so more like:
+ *   <Header route={put-a-ComponentRendering-typed-variable-here} />
+ */
+export interface Props {
+    route: ComponentRendering;
+}
+
+// I am not sure if this is actually important; I stole it from some other examples.  May remove later.
+const renderingId = `i${Astro.props.route.uid && Astro.props.route.uid.replace(/[{}]/g, "")}`;
+
+/*
+ * 101-LEVEL LESSON:
+ * Finally, down below in our actual template code,
+ *   we'll call a few other helpers to actually
+ *   do the dirty work of rendering most of the HTML
+ *   out of the data we found in Astro.props.route.fields.
+ */
+---
+
+{/* TODO: class="normal" needs to be fancied up for editing mode and such */}
+<div class="normal" id={renderingId.toString()}>
+    <div class="TODO-header-div-tag-class-list">
+        <Text
+            tag="div"
+            field={Astro.props.route.fields.Tagline}
+            class="TODO-header-tagline-div-tag-class-list"
+        />
+        <HeaderNavigationMenu
+            theNavigation={Astro.props.route.fields.Navigation}
+        />
+    </div>
+</div>
