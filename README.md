@@ -99,7 +99,7 @@ _("TMC" a playful reference one of the contributors being a "Bogdan" living in E
 
 ### Needs tutorial
 
-TODO:  explain how to watch this in action.
+TODO:  explain how to watch this codebase run.
 
 ### Some paths broken with SSG
 
@@ -111,3 +111,10 @@ TODO:  explain how to watch this in action.
 
 The only HTML-rendering component code files I have yet bothered to author pertain to the header.  Main body and footer content returned by the Sitecore Layout Service API is still being blithely ignored.
 
+---
+
+## Related links
+
+* ["Backend content strategy" vs. "frontend content strategy"](https://www.legacycode.rocks/episodes/10/) episode of the "Legacy Code Rocks" podcast, featuring Carrie Hane
+* [Sitecore docs:  what "page," "component," "placeholder," "content item," etc. means within the CMS backend](https://doc.sitecore.com/xp/en/users/102/sitecore-experience-platform/pages,-components,-placeholders,-and-content-items.html)
+* [Intro to JSON](https://katiekodes.com/intro-xml-json-1/)
