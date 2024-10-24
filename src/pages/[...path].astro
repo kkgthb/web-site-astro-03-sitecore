@@ -34,6 +34,10 @@ const pageProps = await sitecorePagePropsFactory.create(
   config.defaultLanguage,
 );
 
+if (!pageProps?.layoutData?.sitecore?.route?.itemId) {
+  return new Response("Not found", {status:404})
+}
+
 let scContext = pageProps.layoutData.sitecore.context as SitecoreContextValue;
 scContext.route = pageProps.layoutData.sitecore.route;
 scContext.itemId = pageProps.layoutData.sitecore.route.itemId;
