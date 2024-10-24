@@ -21,27 +21,36 @@ import config from "../temp/config";
 
 export const prerender = false; // False = SSR; True = SSG. // Dynamic routes and Astro Server Islands don't play nice with each other, and I want to flip navbar tab to "active" class at runtime, so sticking to SSR for now.
 
-export type SitecoreContextValue = LayoutServiceContext & {
-  itemId?: string;
-  route?: RouteData;
-};
-
 const { path } = Astro.params;
 
+/*
+ * Ask the Sitecore API for details about this URL.
+ */
 let sitecorePagePropsFactory = new SitecorePagePropsFactory();
 const pageProps = await sitecorePagePropsFactory.create(
   path ?? "/",
   config.defaultLanguage,
 );
 
+/*
+ * Return an HTTP 404 error if Sitecore API did not recognize this URL.
+ * Do not execute any more code below this line, if so.
+ */
 if (!pageProps?.layoutData?.sitecore?.route?.itemId) {
-  return new Response("Not found", {status:404})
+  return new Response("Not found", { status: 404 });
 }
 
+/*
+* Do a little more preprocessing on the data returned from 
+*   the Sitecore API.
+*/
+type SitecoreContextValue = LayoutServiceContext & {
+  itemId?: string;
+  route?: RouteData;
+};
 let scContext = pageProps.layoutData.sitecore.context as SitecoreContextValue;
 scContext.route = pageProps.layoutData.sitecore.route;
 scContext.itemId = pageProps.layoutData.sitecore.route.itemId;
-
 SitecoreContextMap.setKey("scContext", scContext);
 SitecoreContextMap.setKey("dictionary", pageProps.dictionary);
 
