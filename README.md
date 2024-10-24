@@ -95,21 +95,15 @@ _("TMC" a playful reference one of the contributors being a "Bogdan" living in E
 
 ---
 
-## Known issues 10/23/24, 3PM:
+## Known issues 10/24/24, 12PM:
 
 ### Needs tutorial
 
 TODO:  explain how to watch this codebase run.
 
-### Some paths broken with SSG
-
-* BROKEN:  `npm run build` followed by `node ./dist/server/entry.mjs` 404-errors out if you try to visit `http://localhost`, even though it is a valid path with my particularly Sitecore Layout Service API that I am testing against.
-    * I need to figure out why, because this is a bug.  It does not have this problem with all valid routes -- a handful of them SSG-pre-generate correctly.
-* WORKING:  `npm run dev` only 404-errors out if you try to visit something nonsensical like `http://localhost/i-really-should-not-exist/`.  This is the behavior I was hoping for regardless of whether in `dev` or `build`.
-
 ### No main or footer HTML
 
-The only HTML-rendering component code files I have yet bothered to author pertain to the header.  Main body and footer content returned by the Sitecore Layout Service API is still being blithely ignored.
+The only HTML-rendering component code files I have yet bothered to author pertain to the header _(and I haven't even finished that)_.  Main body and footer content returned by the Sitecore Layout Service API is still being blithely ignored.
 
 ---
 
