@@ -11,10 +11,6 @@
  */
 
 import DefaultLayout from "../layouts/DefaultLayout.astro";
-import {
-  SitemapService,
-  StaticPath,
-} from "../../utils-to-deal-with-backend/runtimefetchingscripts/sitemap-service";
 import { SitecorePagePropsFactory } from "../../utils-to-deal-with-backend/runtimefetchingscripts/page-props-factory";
 import { SitecoreContextMap } from "@astro-sitecore-jss/astro-sitecore-jss";
 import type {
@@ -22,19 +18,8 @@ import type {
   RouteData,
 } from "@sitecore-jss/sitecore-jss/layout";
 import config from "../temp/config";
-import GraphQLRequestClientFactory from "../../utils-to-deal-with-backend/runtimefetchingscripts/graphql/graphql-request-client-factory";
 
-export const prerender = true; // False = SSR; True = SSG.
-
-export async function getStaticPaths() {
-  const graphQlRequestSitemapFactory = new GraphQLRequestClientFactory();
-  const sitemapService = new SitemapService(graphQlRequestSitemapFactory);
-  const staticPaths: StaticPath[] = await sitemapService.getStaticSitemap(
-    config.defaultLanguage,
-  );
-
-  return staticPaths;
-}
+export const prerender = false; // False = SSR; True = SSG. // Dynamic routes and Astro Server Islands don't play nice with each other, and I want to flip navbar tab to "active" class at runtime, so sticking to SSR for now.
 
 export type SitecoreContextValue = LayoutServiceContext & {
   itemId?: string;
